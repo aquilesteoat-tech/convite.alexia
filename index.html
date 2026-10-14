@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#100D12">
+<title>Operação Fim de Semana — acesso restrito</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="sparkles" id="sparkles" aria-hidden="true"></div>
+
+<header class="topbar">
+  <button class="mini" id="backBtn" hidden>Voltar</button>
+  <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+  <button class="mini green" id="toReportBtn" hidden>Voltar ao relatório</button>
+</header>
+
+<main>
+  <!-- 1. CONVITE -->
+  <section class="screen" id="invite" data-hero>
+    <p class="small tag">Sistema confidencial de planejamento de rolês — acesso autorizado somente à Alexia.</p>
+    <h1 tabindex="-1">PREPARADA PRO NOSSO FINAL DE SEMANA?</h1>
+    <span class="rule"></span>
+    <p class="lead">Foi desenvolvido um sistema especialmente para organizar esse evento de importância questionável e expectativas a serem avaliadas.</p>
+    <div class="choices">
+      <span class="slot"><button class="btn green" id="yes" data-next>Óbvio 😎</button></span>
+      <span class="slot"><button class="btn purple run">Talvez 🤔</button></span>
+      <span class="slot"><button class="btn wine run">Não 🙄</button></span>
+    </div>
+    <p class="taunt" id="taunt" aria-live="polite"></p>
+    <button class="link" id="declineLink">Quero recusar de verdade, sem brincadeira</button>
+  </section>
+
+  <!-- Recusa discreta -->
+  <section class="screen" id="decline">
+    <h2 tabindex="-1">Tudo bem. Resposta recebida com respeito.</h2>
+    <p class="lead">O sistema aceita um não sem drama. Se quiser, escreva uma mensagem e copie para me enviar.</p>
+    <label class="field">Mensagem (opcional)
+      <textarea id="declineMsg" rows="3" placeholder="Dessa vez não vai dar, mas…"></textarea>
+    </label>
+    <div class="row">
+      <button class="btn wine" id="copyDecline">Copiar resposta</button>
+      <button class="btn ghost" id="undoDecline">Voltei atrás</button>
+    </div>
+    <p class="note" id="declineStatus" aria-live="polite"></p>
+  </section>
+
+  <!-- 2. DATA E HORÁRIO -->
+  <section class="screen" id="date">
+    <h2 tabindex="-1">Excelente. Vamos aos detalhes operacionais.</h2>
+    <p class="lead">Um evento dessa magnitude exige planejamento minimamente questionável.</p>
+    <fieldset><legend>Data</legend>
+      <div class="chips" id="dateChips">
+        <button class="chip" data-v="Sábado, 24 de outubro de 2026" aria-pressed="false">Sábado, 24 de outubro de 2026</button>
+        <button class="chip" data-v="Domingo, 25 de outubro de 2026" aria-pressed="false">Domingo, 25 de outubro de 2026</button>
+      </div>
+    </fieldset>
+    <fieldset><legend>Horário</legend>
+      <div class="chips" id="timeChips">
+        <button class="chip" data-v="14h" aria-pressed="false">14h</button>
+        <button class="chip" data-v="16h" aria-pressed="false">16h</button>
+        <button class="chip" data-v="18h" aria-pressed="false">18h</button>
+        <button class="chip" data-v="20h" aria-pressed="false">20h</button>
+        <button class="chip" data-v="Outro horário" aria-pressed="false">Outro horário</button>
+      </div>
+      <label class="field" id="timeOtherWrap" hidden>Qual horário combina com você?
+        <input type="text" id="timeOther" maxlength="60" placeholder="Ex.: depois das 15h">
+      </label>
+    </fieldset>
+    <p class="note">Escolher o horário não garante pontualidade, apenas gera uma expectativa formal.</p>
+    <p class="error" id="dateErr" role="alert"></p>
+    <button class="btn wine" id="dateNext">Continuar</button>
+  </section>
+
+  <!-- 3. SAUDADE -->
+  <section class="screen" id="saudade">
+    <h2 tabindex="-1">CALIBRAÇÃO DO NÍVEL DE SAUDADE</h2>
+    <p class="lead">Antes de continuar, precisamos coletar um dado altamente científico e absolutamente confiável.</p>
+    <div class="meter">
+      <p class="level" id="lvlName" aria-live="polite"></p>
+      <input type="range" id="saudadeRange" min="1" max="5" step="1" value="3" aria-label="Nível de saudade, de 1 a 5">
+      <div class="ticks" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+      <p class="msg" id="lvlMsg" aria-live="polite"></p>
+    </div>
+    <button class="btn green" id="saudadeNext">Registrar evidência científica</button>
+  </section>
+
+  <!-- 4. ESTRATÉGIA -->
+  <section class="screen" id="plan">
+    <h2 tabindex="-1">QUAL É A ESTRATÉGIA DO EVENTO?</h2>
+    <p class="lead">Você prefere que eu organize uma surpresa ou quer participar das decisões?</p>
+    <div class="cards2">
+      <button class="card" data-plan="surpresa" aria-pressed="false"><b>Opção A — Confio no responsável pelo projeto</b>Você aparece e descobre o que foi planejado. O risco é calculado, mas não auditado.</button>
+      <button class="card" data-plan="pitacos" aria-pressed="false"><b>Opção B — Quero dar meus pitacos</b>Você pode sugerir um lugar, uma atividade ou uma ideia para o fim de semana.</button>
+    </div>
+    <label class="field" id="ideaWrap" hidden>Qual é a sua ideia? O setor de planejamento está recebendo sugestões.
+      <textarea id="idea" rows="3" maxlength="500"></textarea>
+    </label>
+    <p class="error" id="planErr" role="alert"></p>
+    <button class="btn wine" id="planNext">Continuar</button>
+  </section>
+
+  <!-- 5. DUAS COISAS FAVORITAS -->
+  <section class="screen" id="likes">
+    <h2 tabindex="-1">PESQUISA DE PREFERÊNCIAS PESSOAIS</h2>
+    <p class="lead">Precisamos conhecer melhor a participante para aumentar a probabilidade de sucesso do evento.</p>
+    <label class="field">Qual é uma das duas coisas que você mais gosta na vida?
+      <input type="text" id="fav1" maxlength="120" autocomplete="off">
+    </label>
+    <label class="field">E qual seria a segunda?
+      <input type="text" id="fav2" maxlength="120" autocomplete="off">
+    </label>
+    <p class="note">Respostas vagas, como “dormir” ou “comer”, serão aceitas, mas poderão ser submetidas a auditoria.</p>
+    <button class="btn wine" id="likesNext">Continuar</button>
+  </section>
+
+  <!-- 6. PERFIL DO ROLÊ -->
+  <section class="screen" id="profile">
+    <h2 tabindex="-1">DEFININDO OS PARÂMETROS DE QUALIDADE</h2>
+    <fieldset><legend>Qual dessas opções mais combina com o seu fim de semana ideal? (pode marcar várias)</legend>
+      <div class="chips" id="actChips">
+        <button class="chip" data-v="Comer alguma coisa boa" aria-pressed="false">Comer alguma coisa boa</button>
+        <button class="chip" data-v="Conversar por horas" aria-pressed="false">Conversar por horas</button>
+        <button class="chip" data-v="Sair para algum lugar diferente" aria-pressed="false">Sair para algum lugar diferente</button>
+        <button class="chip" data-v="Assistir a alguma coisa" aria-pressed="false">Assistir a alguma coisa</button>
+        <button class="chip" data-v="Fazer algo espontâneo" aria-pressed="false">Fazer algo espontâneo</button>
+        <button class="chip" data-v="Não importa muito, desde que a companhia seja boa" aria-pressed="false">Não importa muito, desde que a companhia seja boa</button>
+        <button class="chip" data-v="Tenho outra ideia" aria-pressed="false">Tenho outra ideia</button>
+      </div>
+      <label class="field" id="actOtherWrap" hidden>Conta qual é a outra ideia:
+        <input type="text" id="actOther" maxlength="150">
+      </label>
+    </fieldset>
+    <fieldset><legend>Qual é o seu nível de disposição para sair de casa?</legend>
+      <div class="chips" id="energyChips">
+        <button class="chip" data-v="Estou pronta para viver." aria-pressed="false">Estou pronta para viver.</button>
+        <button class="chip" data-v="Depende do horário." aria-pressed="false">Depende do horário.</button>
+        <button class="chip" data-v="Preciso de incentivos." aria-pressed="false">Preciso de incentivos.</button>
+        <button class="chip" data-v="Se for para sair, que seja por um bom motivo." aria-pressed="false">Se for para sair, que seja por um bom motivo.</button>
+        <button class="chip" data-v="Preferia receber o rolê em casa." aria-pressed="false">Preferia receber o rolê em casa.</button>
+      </div>
+    </fieldset>
+    <button class="btn wine" id="profileNext">Continuar</button>
+  </section>
+
+  <!-- 7. CONTRATO -->
+  <section class="screen" id="contract">
+    <h2 tabindex="-1">CONTRATO EXTRAOFICIAL DE PARTICIPAÇÃO</h2>
+    <article class="paper">
+      <span class="seal" aria-hidden="true">CONFIDENCIAL</span>
+      <ol>
+        <li><b>Cláusula 1.</b> A participante declara estar ciente de que o evento poderá conter conversas, risadas e decisões de última hora.</li>
+        <li><b>Cláusula 2.</b> O responsável pelo planejamento não garante ausência de piadas ruins.</li>
+        <li><b>Cláusula 3.</b> A participante tem direito de sugerir alterações no roteiro, inclusive mudanças de horário.</li>
+        <li><b>Cláusula 4.</b> Nenhuma das partes poderá utilizar a expressão “tanto faz” sem estar disposta a avaliar pelo menos uma alternativa.</li>
+        <li><b>Cláusula 5.</b> O presente documento tem caráter exclusivamente humorístico e não cria obrigação real de comparecimento.</li>
+      </ol>
+      <span class="signed" id="signed" aria-hidden="true">ASSINADO</span>
+    </article>
+    <label class="check"><input type="checkbox" id="terms"> Li, entendi parcialmente e aceito continuar com a investigação.</label>
+    <p class="error" id="termsErr" role="alert"></p>
+    <button class="btn wine" id="signBtn">Assinar digitalmente com a dignidade disponível</button>
+  </section>
+
+  <!-- 8. RELATÓRIO -->
+  <section class="screen" id="report">
+    <p class="small tag">Documento confidencial — nível de acesso: Alexia</p>
+    <h2 tabindex="-1">RELATÓRIO CONFIDENCIAL — OPERAÇÃO FIM DE SEMANA</h2>
+    <p class="lead">Participante: Alexia. Status do planejamento: em análise.</p>
+    <div class="grid" id="reportGrid"></div>
+    <div class="index">
+      <p class="idx-title">ÍNDICE DE VIABILIDADE DO ROLÊ</p>
+      <p class="idx-num"><span id="idxNum">0</span>%</p>
+      <div class="idx-bar"><i id="idxFill"></i></div>
+      <p class="msg" id="idxMsg"></p>
+      <p class="note">Número inventado com carinho e nenhuma ciência.</p>
+    </div>
+    <p class="final">Agora só falta transformar esse planejamento em realidade.</p>
+    <div class="row">
+      <button class="btn green" id="copyBtn">Copiar meu relatório</button>
+      <button class="btn ghost" id="reviewBtn">Revisar minhas respostas</button>
+    </div>
+    <p class="note" id="copyStatus" aria-live="polite">Nada é enviado automaticamente: este site não envia suas respostas a ninguém. Se quiser, copie o relatório e compartilhe.</p>
+    <textarea id="fallbackText" class="fallback" rows="8" readonly hidden aria-label="Relatório para copiar manualmente"></textarea>
+  </section>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
